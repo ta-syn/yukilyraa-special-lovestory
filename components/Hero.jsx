@@ -78,10 +78,10 @@ const Hero = ({ herName: defaultHerName = "Lyraa" }) => {
                 
                 {/* Edit Controls */}
                 {isEditMode && (
-                    <div className="absolute top-[-100px] right-0 md:right-[-100px] animate-fade-in">
+                    <div className="absolute top-4 right-4 md:top-[-100px] md:right-[-100px] animate-fade-in z-50">
                         <button
                             onClick={() => editMode ? handleSave() : setEditMode(true)}
-                            className="p-4 glass rounded-full text-gold hover:bg-gold hover:text-bg-primary transition-all duration-300 shadow-lg border border-gold/20 group"
+                            className="p-3 md:p-4 glass rounded-full text-gold hover:bg-gold hover:text-bg-primary transition-all duration-300 shadow-lg border border-gold/20 group"
                         >
                             {editMode ? <Check size={20} /> : <Edit3 size={20} />}
                             <span className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-gold text-bg-primary px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
@@ -97,7 +97,7 @@ const Hero = ({ herName: defaultHerName = "Lyraa" }) => {
                             <label className="text-gold/50 text-xs uppercase tracking-widest font-bold">Her Name</label>
                             <input
                                 type="text"
-                                className="w-full bg-white/5 border border-gold/30 p-6 rounded-2xl text-cream text-5xl md:text-7xl font-display text-center outline-none focus:border-gold focus:bg-white/10 transition-all placeholder:text-white/10"
+                                className="w-full bg-white/5 border border-gold/30 p-4 md:p-6 rounded-2xl text-cream text-4xl md:text-7xl font-display text-center outline-none focus:border-gold focus:bg-white/10 transition-all placeholder:text-white/10"
                                 value={tempData.herName}
                                 onChange={(e) => setTempData({ ...tempData, herName: e.target.value })}
                                 placeholder="Enter Name"

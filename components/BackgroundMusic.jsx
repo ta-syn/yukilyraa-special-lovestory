@@ -54,7 +54,7 @@ const BackgroundMusic = () => {
     };
 
     return (
-        <div className="fixed bottom-10 right-10 z-[100] flex flex-col items-end gap-4">
+        <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] flex flex-col items-end gap-4">
             {isEditMode && (
                 <div className="relative">
                     <button
@@ -127,7 +127,7 @@ const BackgroundMusic = () => {
 
             <button
                 onClick={togglePlay}
-                className="w-16 h-16 rounded-full glass border-gold/30 flex items-center justify-center text-gold hover:scale-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(212,175,122,0.3)] relative group"
+                className="w-14 h-14 md:w-16 md:h-16 rounded-full glass border-gold/30 flex items-center justify-center text-gold hover:scale-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(212,175,122,0.3)] relative group"
             >
                 <div className={`absolute inset-0 rounded-full border border-gold/20 ${isPlaying ? 'animate-ping' : ''}`} />
                 {isPlaying ? <Pause size={24} /> : <Play size={24} fill="currentColor" />}

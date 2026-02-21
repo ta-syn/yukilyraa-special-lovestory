@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 
 const navItems = [
     { id: 'home', label: 'HOME' },
@@ -15,6 +16,7 @@ const navItems = [
 const Navbar = () => {
     const [activeSection, setActiveSection] = useState('home');
     const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -46,6 +48,7 @@ const Navbar = () => {
     const scrollToSection = (id) => {
         const element = document.getElementById(id);
         if (element) {
+            setMobileMenuOpen(false); // Close mobile menu if open
             window.scrollTo({
                 top: element.offsetTop,
                 behavior: 'smooth'
@@ -60,18 +63,27 @@ const Navbar = () => {
                 scrolled ? 'bg-bg-primary/80 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-6'
             }`}
         >
-            <div className="max-w-7xl mx-auto px-6 flex justify-center md:justify-between items-center">
-                {/* Mobile Menu Button - Hidden for now as the request implies a desktop view, 
-                    but we can add a simple hamburger if needed. 
-                    For now, following the image strictly which is desktop-like. 
-                */}
+            <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+                {/* Logo / Brand (Optional, keeping it simple as per original) */}
+                <div className="md:hidden text-gold font-display text-xl tracking-widest">
+                    MENU
+                </div>
+
+                {/* Mobile Menu Toggle */}
+                <button 
+                    className="md:hidden text-gold p-2 glass rounded-full"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                >
+                    {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
                 
-                <ul className="flex flex-wrap justify-center gap-6 md:gap-8">
+                {/* Desktop Navigation */}
+                <ul className="hidden md:flex flex-wrap justify-center gap-8 mx-auto">
                     {navItems.map((item) => (
                         <li key={item.id} className="relative">
                             <button
                                 onClick={() => scrollToSection(item.id)}
-                                className={`text-sm md:text-base font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
+                                className={`text-base font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
                                     activeSection === item.id ? 'text-rose' : 'text-cream/60 hover:text-gold'
                                 }`}
                             >
@@ -89,6 +101,30 @@ const Navbar = () => {
                         </li>
                     ))}
                 </ul>
+
+                {/* Mobile Navigation Overlay */}
+                <AnimatePresence>
+                    {mobileMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="absolute top-full left-0 w-full bg-bg-primary/95 backdrop-blur-xl border-b border-white/10 py-8 md:hidden flex flex-col items-center gap-6 shadow-2xl"
+                        >
+                            {navItems.map((item) => (
+                                <button
+                                    key={item.id}
+                                    onClick={() => scrollToSection(item.id)}
+                                    className={`text-lg font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
+                                        activeSection === item.id ? 'text-rose' : 'text-cream/80'
+                                    }`}
+                                >
+                                    {item.label}
+                                </button>
+                            ))}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </nav>
     );
