@@ -11,6 +11,7 @@ import Gallery from '@/components/Gallery';
 import LoveLetter from '@/components/LoveLetter';
 import MusicCard from '@/components/MusicCard';
 import Countdown from '@/components/Countdown';
+import FutureMilestones from '@/components/FutureMilestones';
 import Promises from '@/components/Promises';
 import Footer from '@/components/Footer';
 import BackgroundMusic from '@/components/BackgroundMusic';
@@ -128,6 +129,10 @@ export default function Home() {
 
         <div id="countdown">
           <Countdown startDate={anniversaryDate} />
+        </div>
+
+        <div id="future">
+          <FutureMilestones />
         </div>
 
         <div id="promises">
