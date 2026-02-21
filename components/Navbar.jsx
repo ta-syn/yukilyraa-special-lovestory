@@ -10,6 +10,8 @@ const navItems = [
     { id: 'gallery', label: 'GALLERY' },
     { id: 'letter', label: 'LETTER' },
     { id: 'music', label: 'MUSIC' },
+    { id: 'countdown', label: 'THE WAIT' },
+    { id: 'future', label: 'FUTURE' },
     { id: 'promises', label: 'PROMISES' },
 ];
 
@@ -49,8 +51,11 @@ const Navbar = () => {
         const element = document.getElementById(id);
         if (element) {
             setMobileMenuOpen(false); // Close mobile menu if open
+            const yOffset = -80; // Offset for fixed navbar
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            
             window.scrollTo({
-                top: element.offsetTop,
+                top: y,
                 behavior: 'smooth'
             });
             setActiveSection(id);
@@ -60,7 +65,7 @@ const Navbar = () => {
     return (
         <nav 
             className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-                scrolled ? 'bg-bg-primary/80 backdrop-blur-md border-b border-white/5 py-4' : 'bg-transparent py-6'
+                scrolled ? 'bg-bg-primary/95 backdrop-blur-md border-b border-white/5 py-4 shadow-lg' : 'bg-transparent py-6'
             }`}
         >
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -78,12 +83,12 @@ const Navbar = () => {
                 </button>
                 
                 {/* Desktop Navigation */}
-                <ul className="hidden md:flex flex-wrap justify-center gap-8 mx-auto">
+                <ul className="hidden md:flex flex-wrap justify-center gap-6 mx-auto">
                     {navItems.map((item) => (
-                        <li key={item.id} className="relative">
+                        <li key={item.id} className="relative group">
                             <button
                                 onClick={() => scrollToSection(item.id)}
-                                className={`text-base font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
+                                className={`text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
                                     activeSection === item.id ? 'text-rose' : 'text-cream/60 hover:text-gold'
                                 }`}
                             >
@@ -109,7 +114,7 @@ const Navbar = () => {
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
-                            className="absolute top-full left-0 w-full bg-bg-primary/95 backdrop-blur-xl border-b border-white/10 py-8 md:hidden flex flex-col items-center gap-6 shadow-2xl"
+                            className="absolute top-full left-0 w-full bg-bg-primary/95 backdrop-blur-xl border-b border-white/10 py-8 md:hidden flex flex-col items-center gap-6 shadow-2xl h-screen overflow-y-auto"
                         >
                             {navItems.map((item) => (
                                 <button
@@ -122,6 +127,7 @@ const Navbar = () => {
                                     {item.label}
                                 </button>
                             ))}
+                            <div className="h-20" /> {/* Spacer for scrolling */}
                         </motion.div>
                     )}
                 </AnimatePresence>
