@@ -98,7 +98,7 @@ const Promises = () => {
                 </div>
 
                 <div className="space-y-6">
-                    {data.promises.map((promise, index) => (
+                    {(data?.promises || []).map((promise, index) => (
                         <PromiseItem
                             key={index}
                             promise={promise}

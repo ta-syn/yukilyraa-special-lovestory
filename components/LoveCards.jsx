@@ -6,12 +6,20 @@ import { motion } from 'framer-motion';
 
 const FlipCard = React.memo(({ reason, index, onDelete, onUpdate, isEditMode }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [isFlipped, setIsFlipped] = useState(false);
     const [editedReason, setEditedReason] = useState(reason);
 
     const handleSave = (e) => {
         e.stopPropagation();
         onUpdate(index, editedReason);
         setIsEditing(false);
+        setIsFlipped(true); // Keep flipped to show result
+    };
+
+    const handleCardClick = () => {
+        if (!isEditing) {
+            setIsFlipped(!isFlipped);
+        }
     };
 
     return (
@@ -22,9 +30,12 @@ const FlipCard = React.memo(({ reason, index, onDelete, onUpdate, isEditMode }) 
             transition={{ delay: index * 0.1, duration: 0.5 }}
             className="group h-[450px] perspective-[2000px]"
         >
-            <div className={`relative h-full w-full transition-all duration-[1.2s] preserve-3d ${isEditing ? 'rotate-y-180' : 'group-hover:rotate-y-180'} cursor-pointer`}>
+            <div 
+                onClick={handleCardClick}
+                className={`relative h-full w-full transition-all duration-[1.2s] preserve-3d ${isFlipped || isEditing ? 'rotate-y-180' : ''} cursor-pointer`}
+            >
                 {/* Front */}
-                <div className="absolute inset-0 backface-hidden glass flex flex-col items-center justify-center p-8 border-white/5 group-hover:border-gold/30 transition-colors duration-700">
+                <div className="absolute inset-0 backface-hidden glass flex flex-col items-center justify-center p-8 border-white/5 hover:border-gold/30 transition-colors duration-700">
                     <div className="absolute top-8 left-8 text-gold/20 font-display text-4xl">0{index + 1}</div>
 
                     <div className="w-20 h-20 rounded-full border border-gold/10 flex items-center justify-center mb-8 relative">
@@ -34,6 +45,8 @@ const FlipCard = React.memo(({ reason, index, onDelete, onUpdate, isEditMode }) 
 
                     <h3 className="text-gold tracking-[0.4em] uppercase text-[10px] font-body mb-4">A Sacred Reason</h3>
                     <div className="w-12 h-[1px] bg-gold/20" />
+                    
+                    <span className="absolute bottom-8 text-gold/40 text-[10px] uppercase tracking-widest animate-pulse">Tap to Reveal</span>
                 </div>
 
                 {/* Back */}
